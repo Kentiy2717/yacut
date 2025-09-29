@@ -1,14 +1,15 @@
 {% extends 'base.html' %} 
-{% block title %}404. Если тут что-то было, теперь этого тут нет.{% endblock %}
+{% block title %}404. Ссылка не найдена.{% endblock %}
 {% block content %}
 <main>
   <section class="container my-5">
     <div class="row">
       <div class="col-12 col-lg-7 my-5">
-        <h1 class="mb-5">Ты не пройдёшь!</h1>
-        <p>Если тут что-то было, теперь этого тут нет.</p>
-        <p>
-          <a href="{{ url_for('index_view') }}">Вернуться на главную</a>
+        <h1 class="mb-5">Такую ссылку еще не завезли :(</h1>
+        <p>Если она и была, то теперь ее уже нет.</p>
+        <p>Ее не вернуть, поэтому лучше создай новую ссылку.</p>
+        <p>↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓</p>
+          <a href="{{ url_for('short_links.index_view') }}">Создать новую ссылку</a>
         </p>
       </div>
       <div class="col-12 col-lg-5">

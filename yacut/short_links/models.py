@@ -43,7 +43,7 @@ class URLMap(db.Model):
                 setattr(self, field, data[field])
 
     @classmethod
-    def get_by_short(cls, short_link):
+    def get_by_short(cls, short_link: str):
         '''Возвращает объект соответствующий короткой ссылке.'''
         # Пока не использую, но скорее всего будет нужна в файлах.
         return cls.query.filter_by(short=short_link).first()

@@ -24,7 +24,10 @@ class ShortLinkService:
 
         if custom_id:
             if URLMap.query.filter_by(short=custom_id).first():
-                return None, 'Такое мнение уже было оставлено ранее!'
+                return (
+                    None,
+                    'Предложенный вариант короткой ссылки уже существует.'
+                )
             short_id = custom_id
         else:
             short_id = ShortLinkService.generate_unique_short_id()

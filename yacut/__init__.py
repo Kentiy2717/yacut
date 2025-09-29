@@ -15,9 +15,9 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from .short_links.views import short_links_bp
-    from .file_uploads.views import file_uploads_bp
-    from .api.views import api_bp
+    from yacut.short_links.views import bp as short_links_bp
+    from yacut.file_uploads.views import bp as file_uploads_bp
+    from yacut.api.views import bp as api_bp
 
     app.register_blueprint(short_links_bp)
     app.register_blueprint(file_uploads_bp, url_prefix='/files')
@@ -26,4 +26,13 @@ def create_app():
     return app
 
 
+def register_error_handler(app):
+
+    from .error_handlers import (internal_error,
+                                 page_not_found)
+    app.register_error_handler(404, page_not_found)
+    app.register_error_handler(500, internal_error)
+
+
 app = create_app()
+register_error_handler(app)

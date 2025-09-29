@@ -1,3 +1,3 @@
-from .views import bp as api_bp
+from .validators import APIValidator
 
-__all__ = ['api_bp']
+__all__ = ['APIValidator']
