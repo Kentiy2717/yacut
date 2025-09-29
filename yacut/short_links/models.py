@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from flask import abort
+
 from yacut import db
 
 
@@ -29,21 +31,31 @@ class URLMap(db.Model):
 
     def to_dict(self):
         '''Сериализация модели в словарь.'''
+        from .views import BASE_URL
         return dict(
-            id=self.id,
-            original=self.original,
-            short=self.short,
-            timestamp=self.timestamp,
+            url=self.original,
+            short_link=f'{BASE_URL}{self.short}'
         )
 
     def from_dict(self, data):
-        '''Деериализация json в модель.'''
-        for field in ['original', 'short']:
-            if field in data:
-                setattr(self, field, data[field])
+        '''Десериализация json в модель.'''
+        self.original = data['url']
+        if data['custom_id']:
+            self.short = data['custom_id']
+        else:
+            from .services import ShortLinkService
+            self.short = ShortLinkService.generate_unique_short_id()
 
     @classmethod
-    def get_by_short(cls, short_link: str):
-        '''Возвращает объект соответствующий короткой ссылке.'''
-        # Пока не использую, но скорее всего будет нужна в файлах.
-        return cls.query.filter_by(short=short_link).first()
+    def get_url_map_by_short(cls, short_id: str):
+        '''Возвращает объект соответствующий короткому идентификатору.'''
+        return cls.query.filter_by(short=short_id).first()
+
+    @classmethod
+    def get_original_link_by_short(cls, short_id: str) -> str:
+        '''Возвращает оригинальную ссылку соответствующую
+        короткому идентификатору.'''
+        url_map = cls.query.filter_by(short=short_id).first()
+        if url_map is None:
+            abort(404)
+        return url_map.original

@@ -11,6 +11,7 @@ def create_app():
 
     from settings import Config
     app.config.from_object(Config)
+    app.json.ensure_ascii = False
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -21,17 +22,23 @@ def create_app():
 
     app.register_blueprint(short_links_bp)
     app.register_blueprint(file_uploads_bp, url_prefix='/files')
-    app.register_blueprint(api_bp, url_prefix='/api')
+    app.register_blueprint(api_bp, url_prefix='/api/id')
 
     return app
 
 
 def register_error_handler(app):
 
-    from .error_handlers import (internal_error,
-                                 page_not_found)
+    from .error_handlers import (
+        internal_error,
+        InvalidAPIUsage,
+        invalid_api_usage,
+        page_not_found
+    )
+
     app.register_error_handler(404, page_not_found)
     app.register_error_handler(500, internal_error)
+    app.register_error_handler(InvalidAPIUsage, invalid_api_usage)
 
 
 app = create_app()

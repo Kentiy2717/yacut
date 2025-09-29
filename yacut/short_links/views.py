@@ -1,6 +1,5 @@
 from flask import (
     Response,
-    abort,
     flash,
     Blueprint,
     render_template,
@@ -31,16 +30,13 @@ def index_view():
         redirect_view = "short_links.redirect_by_original_link"
         flash('Ваша новая ссылка готова:')
         flash('<a href="'
-              f'{url_for(redirect_view, short_link=url_map.short)}">'
+              f'{url_for(redirect_view, short_id=url_map.short)}">'
               f'{short_link}</a></p>')
         return render_template('index.html', form=form)
     return render_template('index.html', form=form)
 
 
-@bp.route('/<short_link>')
-def redirect_by_original_link(short_link: str) -> Response:
+@bp.route('/<short_id>')
+def redirect_by_original_link(short_id: str) -> Response:
     '''Перенаправляет на оригинальную ссылку по короткой.'''
-    url_map = URLMap.get_by_short(short_link)
-    if url_map is None:
-        abort(404)
-    return redirect(url_map.original)
+    return redirect(URLMap.get_original_link_by_short(short_id))
