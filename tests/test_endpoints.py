@@ -4,7 +4,7 @@ from http import HTTPStatus
 from yacut.short_links.models import URLMap
 
 PY_URL = 'https://www.python.org'
-TEST_BASE_URL = 'http://localhost'
+TEST_BASE_URL = 'http://localhost:5000'
 CREATE_SHORT_LINK_URL = '/api/id/'
 GET_ORIGINAL_LINK_URL = '/api/id/{short_id}/'
 VALIDATION_ERROR_KEY = 'message'

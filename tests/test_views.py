@@ -7,7 +7,7 @@ from yacut.short_links.models import URLMap
 
 PY_URL = 'https://www.python.org'
 CUSTOM_ID = 'py'
-TEST_BASE_URL = 'http://localhost'
+TEST_BASE_URL = 'http://localhost:5000'
 INDEX_URL = '/'
 
 

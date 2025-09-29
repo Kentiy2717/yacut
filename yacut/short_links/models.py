@@ -40,7 +40,7 @@ class URLMap(db.Model):
     def from_dict(self, data):
         '''Десериализация json в модель.'''
         self.original = data['url']
-        if data['custom_id']:
+        if 'custom_id' in data and data['custom_id']:
             self.short = data['custom_id']
         else:
             from .services import ShortLinkService

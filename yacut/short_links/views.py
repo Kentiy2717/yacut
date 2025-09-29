@@ -27,16 +27,14 @@ def index_view():
             flash(error_message)
             return render_template('index.html', form=form)
         short_link = f'{BASE_URL}{url_map.short}'
-        redirect_view = "short_links.redirect_by_original_link"
         flash('Ваша новая ссылка готова:')
-        flash('<a href="'
-              f'{url_for(redirect_view, short_id=url_map.short)}">'
-              f'{short_link}</a></p>')
+        flash(f'<a href="{short_link}">{short_link}</a></p>')
         return render_template('index.html', form=form)
     return render_template('index.html', form=form)
 
 
-@bp.route('/<short_id>')
-def redirect_by_original_link(short_id: str) -> Response:
+@bp.route('/<short_link>')
+def redirect_by_original_link(short_link: str) -> Response:
     '''Перенаправляет на оригинальную ссылку по короткой.'''
+    short_id = short_link.split('/')[-1]
     return redirect(URLMap.get_original_link_by_short(short_id))
