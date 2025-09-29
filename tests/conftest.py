@@ -16,7 +16,7 @@ os.environ['DATABASE_URI'] = _tmp_db_uri
 
 try:
     from yacut import app, db
-    from yacut.models import URLMap  # noqa
+    from yacut.short_links.models import URLMap  # noqa
 except NameError as exc:
     raise AssertionError(
         'При попытке импорта объекта приложения вознакло исключение: '
