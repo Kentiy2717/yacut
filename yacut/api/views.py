@@ -22,7 +22,7 @@ def create_short_link():
 @bp.route('/<short_id>/', methods=['GET'])
 def get_original_link(short_id):
     '''Отдает оригинальную ссылку по короткому идентификатору.'''
-    url_map = URLMap.get_url_map_by_short(short_id)
+    url_map = URLMap.get_url_map_by_short_id(short_id)
     if url_map is None:
         from yacut.shared.error_handlers import InvalidAPIUsage
         raise InvalidAPIUsage('Указанный id не найден', 404)

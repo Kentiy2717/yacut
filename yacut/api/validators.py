@@ -20,7 +20,7 @@ class APIValidator:
                 raise InvalidAPIUsage(
                     'Указано недопустимое имя для короткой ссылки'
                 )
-            if URLMap.get_url_map_by_short(short_id=data['custom_id']):
+            if URLMap.get_url_map_by_short_id(short_id=data['custom_id']):
                 raise InvalidAPIUsage(
                     'Предложенный вариант короткой ссылки уже существует.'
                 )

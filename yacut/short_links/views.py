@@ -3,13 +3,14 @@ from flask import (
     flash,
     Blueprint,
     render_template,
-    redirect
+    redirect,
+    request,
+    url_for
 )
 
-from . import ShortLinkService, URLForm, URLMap
+from . import BASE_URL, ShortLinkService, URLForm, URLMap
 
 bp = Blueprint('short_links', __name__)
-BASE_URL = 'http://localhost:5000/'
 
 
 @bp.route('/', methods=['GET', 'POST'])
@@ -30,6 +31,33 @@ def index_view():
         flash(f'<a href="{short_link}">{short_link}</a></p>')
         return render_template('index.html', form=form)
     return render_template('index.html', form=form)
+
+
+@bp.route('/get_all_links')
+def get_all_links():
+    '''Отображает все записи в БД с пагинацией.'''
+    page = request.args.get('page', 1, type=int)
+    per_page = 8
+
+    pagination = URLMap.query.paginate(
+        page=page,
+        per_page=per_page,
+        error_out=False
+    )
+
+    return render_template(
+        'all_links.html',
+        pagination=pagination,
+        url_map=pagination.items
+    )
+
+
+@bp.route('/delete/<short_id>', methods=['GET', 'DELETE'])
+def delete_url_map_by_short(short_id: str):
+    '''Удаляет запись из БД по короткому идентификатору.'''
+    message = ShortLinkService.delete_url_map_by_short(short_id)
+    flash(message)
+    return redirect(url_for('short_links.get_all_links'))
 
 
 @bp.route('/<short_link>')

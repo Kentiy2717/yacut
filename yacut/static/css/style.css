@@ -120,3 +120,26 @@ a.regular-link:hover {
 footer a.regular-link {
     font-weight: 200;
 }
+
+.flash-messages {
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      width: 60%;
+      max-width: 600px;
+    }
+    .flash-messages .alert {
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+.pagination-custom {
+      position: fixed;
+      top: 680px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      width: 60%;
+      max-width: 600px;
+    }

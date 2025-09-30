@@ -5,7 +5,7 @@ import logging
 from sqlite3 import IntegrityError
 
 from yacut import db
-from . import URLMap
+from . import BASE_URL, URLMap
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ class ShortLinkService:
         '''
 
         if custom_id:
-            if URLMap.query.filter_by(short=custom_id).first():
+            if URLMap.get_url_map_by_short_id(custom_id):
                 return (
                     None,
                     'Предложенный вариант короткой ссылки уже существует.'
@@ -40,6 +40,15 @@ class ShortLinkService:
         except IntegrityError:
             db.session.rollback()
             return None, 'Ошибка при создании ссылки'
+
+    @staticmethod
+    def delete_url_map_by_short(short_id: str) -> str:
+        '''Удаляет запись из БД по короткому идентификатору,
+        возвращает сообщение об успешном удалиении.'''
+        url_map = URLMap.query.filter_by(short=short_id).first_or_404()
+        db.session.delete(url_map)
+        db.session.commit()
+        return f'Ссылка - {BASE_URL}{url_map.short} успешно удалена'
 
     @staticmethod
     def generate_unique_short_id(length: int = 6) -> str:

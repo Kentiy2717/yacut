@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import abort
 
 from yacut import db
+from . import BASE_URL
 
 
 class URLMap(db.Model):
@@ -31,7 +32,6 @@ class URLMap(db.Model):
 
     def to_dict(self):
         '''Сериализация модели в словарь.'''
-        from .views import BASE_URL
         return dict(
             url=self.original,
             short_link=f'{BASE_URL}{self.short}'
@@ -47,7 +47,7 @@ class URLMap(db.Model):
             self.short = ShortLinkService.generate_unique_short_id()
 
     @classmethod
-    def get_url_map_by_short(cls, short_id: str):
+    def get_url_map_by_short_id(cls, short_id: str):
         '''Возвращает объект соответствующий короткому идентификатору.'''
         return cls.query.filter_by(short=short_id).first()
 
