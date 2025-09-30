@@ -3,8 +3,7 @@ from flask import (
     flash,
     Blueprint,
     render_template,
-    redirect,
-    url_for
+    redirect
 )
 
 from . import ShortLinkService, URLForm, URLMap

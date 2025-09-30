@@ -9,7 +9,7 @@ class APIValidator:
     def validate_create_request(data):
         '''Валидация запроса на создание короткой ссылки.'''
 
-        from yacut.error_handlers import InvalidAPIUsage
+        from yacut.shared.error_handlers import InvalidAPIUsage
 
         if not data:
             raise InvalidAPIUsage('Отсутствует тело запроса')

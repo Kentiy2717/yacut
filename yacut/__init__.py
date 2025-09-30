@@ -29,7 +29,7 @@ def create_app():
 
 def register_error_handler(app):
 
-    from .error_handlers import (
+    from .shared.error_handlers import (
         internal_error,
         InvalidAPIUsage,
         invalid_api_usage,

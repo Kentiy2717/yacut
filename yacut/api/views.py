@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 
 from yacut import db
 from yacut.short_links import URLMap
-from yacut.api.validators import APIValidator
+from . import APIValidator
 
 bp = Blueprint('api', __name__, url_prefix='/api/id')
 
@@ -24,6 +24,6 @@ def get_original_link(short_id):
     '''Отдает оригинальную ссылку по короткому идентификатору.'''
     url_map = URLMap.get_url_map_by_short(short_id)
     if url_map is None:
-        from yacut.error_handlers import InvalidAPIUsage
+        from yacut.shared.error_handlers import InvalidAPIUsage
         raise InvalidAPIUsage('Указанный id не найден', 404)
     return jsonify({'url': url_map.original}), 200
