@@ -60,8 +60,7 @@ def delete_url_map_by_short(short_id: str):
     return redirect(url_for('short_links.get_all_links'))
 
 
-@bp.route('/<short_link>')
-def redirect_by_original_link(short_link: str) -> Response:
+@bp.route('/<short_id>')
+def redirect_by_original_link(short_id: str) -> Response:
     '''Перенаправляет на оригинальную ссылку по короткой.'''
-    short_id = short_link.split('/')[-1]
     return redirect(URLMap.get_original_link_by_short(short_id))

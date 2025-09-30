@@ -13,20 +13,20 @@
           </div>
           <div class="col-sm">
             <form method="POST" novalidate enctype="multipart/form-data">
-              {{ form.csrf_token }}
+              {{ context.form.csrf_token }}
               <div>
                 <div>
-                  {{ form.files(class="form-control form-control-lg py-2 mb-3",
-                                placeholder=form.files.label.text) }}<br />
-                  {% if form.files.errors %}
+                  {{ context.form.files(class="form-control form-control-lg py-2 mb-3",
+                                placeholder=context.form.files.label.text) }}<br />
+                  {% if context.form.files.errors %}
                     <p class="text-danger">
-                      {% for error in form.files.errors %}
+                      {% for error in context.form.files.errors %}
                         {{ error }}
                       {% endfor %}
                     </p>
                   {% endif %}
                 </div>
-                {{ form.submit(class="btn btn-primary") }}
+                {{ context.form.submit(class="btn btn-primary") }}
               </div>
             </form>
           </div>
@@ -34,23 +34,44 @@
           </div>
         </div>
       </div>
-
-      <div class="container">
+<div class="container">
         <div class="row ">
-          <div class="col-sm">
+          <div class="col-2">
           </div>
-          <div class="col-sm">
+          <div class="col-8">
             <p class="text-center">
-              {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                  {% for message in messages %}
-                    <h5 class="text-center">{{ message }}</h5>
-                  {% endfor %}
-                {% endif %}
-              {% endwith %}
+        {% if context.files_info %}
+          <div class="container">          
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Наименование файла</th>
+                    <th>Короткая ссылка для скачивания</th>
+                  </tr>
+                </thead>
+              <tbody>
+                {% for file_info in context.files_info %}
+                  <tr>
+                    <td style="max-width: 370px; overflow: hidden; text-overflow: ellipsis;">
+                        {{ file_info.file_name|truncate(50) }}
+                    </td>
+                    <td>
+                      <a href="{{ url_for('short_links.redirect_by_original_link', short_id=file_info.short_link[-6:]) }}"
+                        target="_blank">
+                        {{ file_info.short_link }}
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+              </table>
+            </div>
+          </div>
+        {% endif %}
             </p>
           </div>
-          <div class="col-sm">
+          <div class="col-2">
           </div>
         </div>
       </div>

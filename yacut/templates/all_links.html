@@ -41,7 +41,7 @@
                   </a>
                 </td>
                 <td>
-                  <a href="{{ url_for('short_links.redirect_by_original_link', short_link=url.short) }}"
+                  <a href="{{ url_for('short_links.redirect_by_original_link', short_id=url.short) }}"
                      target="_blank">
                     {{ request.host_url }}{{ url.short }}
                   </a>
